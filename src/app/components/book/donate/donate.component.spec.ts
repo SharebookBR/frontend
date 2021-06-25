@@ -1,7 +1,7 @@
 import { ToastrModule } from 'ngx-toastr';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { DonateComponent } from './donate.component';
@@ -13,8 +13,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('DonateComponent', () => {
   let component: DonateComponent;
   let fixture: ComponentFixture<DonateComponent>;
+  const mockDialogRef = {
+    close: jasmine.createSpy('close')
+  };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DonateComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -26,7 +29,7 @@ describe('DonateComponent', () => {
         ToastrModule.forRoot(),
         HttpClientTestingModule
       ],
-      providers: [NgbActiveModal],
+      providers: [MatDialogModule],
     }).compileComponents();
   }));
 
@@ -38,5 +41,9 @@ describe('DonateComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should close the dialog', () => {
+    expect(mockDialogRef.close).toHaveBeenCalled();
   });
 });
